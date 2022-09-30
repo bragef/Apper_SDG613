@@ -196,8 +196,9 @@ def soyle(temp, temp2, alfa, epsilon):
     fig2.add_shape(type="rect", x0=1.5, y0=I_abs + U_atm, x1=2.5, y1=I_abs + U_atm - U_jord,
                    line=dict(color="Maroon", width=2, ), fillcolor="Red")
 
-    fig2.add_shape(type="rect", x0=3, y0=0, x1=4, y1=I_abs + U_atm - U_jord,
-                   line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
+    if abs(I_abs + U_atm - U_jord) >0.7:
+        fig2.add_shape(type="rect", x0=3, y0=0, x1=4, y1=I_abs + U_atm - U_jord,
+                       line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
 
     # atmosfæren
     fig2.add_shape(type="rect", x0=5.5, y0=0, x1=6.5, y1=epsilon * U_jord,
@@ -206,8 +207,9 @@ def soyle(temp, temp2, alfa, epsilon):
     fig2.add_shape(type="rect", x0=7, y0=epsilon * U_jord, x1=8, y1=epsilon * U_jord - 2 * U_atm,
                    line=dict(color="DarkRed", width=2, ), fillcolor="FireBrick")
 
-    fig2.add_shape(type="rect", x0=8.5, y0=0, x1=9.5, y1=epsilon * U_jord - 2 * U_atm,
-                   line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
+    if (epsilon * U_jord - 2 * U_atm) > 0.7:
+        fig2.add_shape(type="rect", x0=8.5, y0=0, x1=9.5, y1=epsilon * U_jord - 2 * U_atm,
+                       line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
 
     # tekst
     fig2.add_annotation(

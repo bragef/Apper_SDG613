@@ -54,7 +54,7 @@ app.layout = dbc.Container([
                 dbc.Row([
                     dbc.Col(
                         dbc.Label("Albedo:"), lg=2, md=12),  # ,style={'font-size': '.95vw'}),
-                    dbc.Col(dcc.Slider(0, 1, .01, value=0.306, marks=None, id='alfa_slide',
+                    dbc.Col(dcc.Slider(0, 1, .01, value=0.30, marks=None, id='alfa_slide',
                                        tooltip={"placement": "bottom", "always_visible": True}),
                             )
                 ])
@@ -148,8 +148,9 @@ def soyle(temp, alfa):
     fig2.add_shape(type="rect", x0=1.5, y0=I_abs, x1=2.5, y1=I_abs - U_jord,
                    line=dict(color="Maroon", width=2, ), fillcolor="Red")
 
-    fig2.add_shape(type="rect", x0=3, y0=0, x1=4, y1=I_abs - U_jord,
-                   line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
+    if abs(I_abs - U_jord) > 0.7:
+        fig2.add_shape(type="rect", x0=3, y0=0, x1=4, y1=I_abs - U_jord,
+                       line=dict(color="RoyalBlue", width=2, ), fillcolor="LightSkyBlue")
 
     # tekst
     fig2.add_annotation(
