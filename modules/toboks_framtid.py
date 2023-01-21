@@ -246,13 +246,16 @@ def update_temperatur(paadriv, check, periode, nivaa):
     dff = df[paadriv]
 
     if nivaa == 1:
+        aar = '1750'
         nivaa1 = 1750
         nivaa2 = 1750
 
     elif nivaa == 2:
+        aar = '1850-1900'
         nivaa1 = 1850
         nivaa2 = 1900
     else:
+        aar = '1995-2014'
         nivaa1 = 1995
         nivaa2 = 2014
 
@@ -269,7 +272,8 @@ def update_temperatur(paadriv, check, periode, nivaa):
         temp[paadriv[i]] = temp[paadriv[i]] - nullnivaa
 
     fig = px.line(data_frame=temp, title='Temperaturanomali overflate', template=Template)
-    fig.update_yaxes(title=dict(text=r'$\Delta T [^{\circ} C]$'))
+    tekst = r'$\Delta T \text{ i forhold til ' + str(aar) + '} [^{\circ} C]$'
+    fig.update_yaxes(title=dict(text=tekst))
     fig.update_xaxes(title=dict(text='År'))
 
     ymax = np.max(temp.loc[periode[0]:periode[1]].max())
