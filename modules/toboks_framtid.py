@@ -51,36 +51,55 @@ app.layout = dbc.Container([
                             dbc.Checklist(
                                 id='my_checklist',
                                 options=[
-                                    {'label': 'SSP1', 'value': 'SSP1-2.6'},
-                                    {'label': 'SSP2', 'value': 'SSP2-4.5', "disabled": False},
-                                    {'label': 'SSP3', 'value': 'SSP3-7.0', "disabled": False},
-                                    {'label': 'SSP4', 'value': 'SSP4-6.0', "disabled": False},
-                                    {'label': 'SSP5', 'value': 'SSP5-8.5'},
+                                    {'label': 'SSP1-1.9', 'value': 'SSP1-1.9'},
+                                    {'label': 'SSP1-2.6', 'value': 'SSP1-2.6'},
+                                    {'label': 'SSP2-4.5', 'value': 'SSP2-4.5', "disabled": False},
+                                    {'label': 'SSP3-3.4', 'value': 'SSP3-3.4', "disabled": False},
+                                    {'label': 'SSP3-7.0', 'value': 'SSP3-7.0', "disabled": False},
+                                    {'label': 'SSP4-3.4', 'value': 'SSP4-3.4', "disabled": False},
+                                    {'label': 'SSP4-6.0', 'value': 'SSP4-6.0', "disabled": False},
+                                    {'label': 'SSP5-8.5', 'value': 'SSP5-8.5'},
                                 ],
                                 value=['SSP1-2.6'],  # hukker alle av til å begynne med.
                                 inline=True)  # ,width=8)
-                        ], xl=4, lg=8, md=12),
-
+                        ], xl=8, lg=8, md=12),
+                    ]),
+                    dbc.Row([
                         dbc.Col([
                             dbc.Label(['Andre valg:']),
-                        ], xl=1, lg=4, md=12),
+                        ], xl=2, lg=4, md=12),
                         dbc.Col([
                             dbc.Checklist(
                                 id='my_checklist2',
                                 options=[
                                     {'label': 'Dyphav', 'value': 'hav'},
-                                    {'label': 'Nullnivå 1986-2005', 'value': '1986:2005'},
+                                    # {'label': 'Nullnivå 1986-2005', 'value': '1986:2005'},
                                     {'label': 'Usikkerhet i lambda', 'value': 'lambda'},
                                 ],
                                 value=['hav'],
                                 inline=True)  # ,width=8)
-                        ], xl=5, lg=8, md=12),
+                        ], xl=4, lg=5, md=12),
 
+                        dbc.Col([
+                            dbc.Label(['Nullnivå:']),
+                        ], xl=1, lg=4, md=12),
+                        dbc.Col([
+                            dbc.RadioItems(
+                                id="select",
+                                options=[
+                                    {"label": "1750", "value": 1},
+                                    {"label": "1850-1900", "value": 2},
+                                    {"label": "1995-2014", "value": 3},
+                                ],
+                                value=1,
+                                inline=True)
+                        ])
                     ])
                 ])
             ], color="primary", inverse=True, class_name="mb-3")
-        ])
+        ]),  # )
     ]),
+    # ]),
     dbc.Row([
         dbc.Col([
             dcc.Graph(id='small-graph', figure={}, mathjax=True)
@@ -218,17 +237,24 @@ lambda_sum_max = lambda_sum + Std
     Output(component_id='my-graph', component_property='figure'),
     [Input(component_id='my_checklist', component_property='value'),
      Input(component_id='my_checklist2', component_property='value'),
-     Input(component_id='slide1', component_property='value')],
+     Input(component_id='slide1', component_property='value'),
+     Input(component_id='select', component_property='value')
+     ]
 )
-def update_temperatur(paadriv, check, periode):
-#    global nullnivaa
+def update_temperatur(paadriv, check, periode, nivaa):
+    # global nullnivaa
     dff = df[paadriv]
-    nivaa1 = 1750
-    nivaa2 = 1750
 
-    if '1986:2005' in check:
-        nivaa1 = 1986
-        nivaa2 = 2005
+    if nivaa == 1:
+        nivaa1 = 1750
+        nivaa2 = 1750
+
+    elif nivaa == 2:
+        nivaa1 = 1850
+        nivaa2 = 1900
+    else:
+        nivaa1 = 1995
+        nivaa2 = 2014
 
     if 'hav' in check:
         gamma = -0.69
